@@ -1,12 +1,13 @@
 const mongoose = require("mongoose");
+
 const userSchema = new mongoose.Schema(
   {
     name: String,
     email: {
       type: String,
       required: true,
-      index: true,
       unique: true,
+      index: true,
     },
     role: {
       type: String,
@@ -16,12 +17,12 @@ const userSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
-    address: String,
+    address: {
+      type: String,
+    },
     //   wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 const User = mongoose.model("User", userSchema);
