@@ -3,17 +3,17 @@ exports.createOrUpdateUser = async (req, res) => {
   const { name, email, picture } = req.user;
   const user = await User.findOneAndUpdate(
     { email: email },
-    { name: name, picture: picture },
+    { name: email.split("@")[0], picture: picture },
     { new: true }
   );
   if (user) {
-    return res.json({ user: user });
+    return res.json(user);
     return;
   }
   try {
     const newUser = await new User({
       email: email,
-      name: name,
+      name: email.split("@")[0],
       picture: picture,
     }).save();
     return res.json(newUser);
