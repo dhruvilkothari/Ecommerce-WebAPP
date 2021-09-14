@@ -1,12 +1,10 @@
 const mongoose = require("mongoose");
-
 const userSchema = new mongoose.Schema(
   {
     name: String,
     email: {
       type: String,
       required: true,
-      unique: true,
       index: true,
     },
     role: {
@@ -20,10 +18,18 @@ const userSchema = new mongoose.Schema(
     address: {
       type: String,
     },
-    //   wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
+    wishlist: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product",
+      },
+    ],
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
 const User = mongoose.model("User", userSchema);
+
 module.exports = User;

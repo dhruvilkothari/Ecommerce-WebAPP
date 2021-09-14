@@ -1,33 +1,23 @@
 const User = require("../models/user");
-exports.createOrUpdateUser = async (req, res) => {
-  const { name, email, picture } = req.user;
-  const user = await User.findOneAndUpdate(
-    { email: email },
-    { name: email.split("@")[0], picture: picture },
-    { new: true }
-  );
-  if (user) {
-    return res.json(user);
-    return;
-  }
+exports.createOrUpdateUser = async (req, res, next) => {
   try {
-    const newUser = await new User({
-      email: email,
-      name: email.split("@")[0],
-      picture: picture,
-    }).save();
-    return res.json(newUser);
-  } catch (err) {
-    console.error(err);
-    res.json({ error: err.message });
-  }
-};
-
-exports.currentUser = async (req, res, next) => {
-  User.findOne({ email: req.user.email }).exec((err, user) => {
-    if (err) {
-      throw new Error(err);
+    const { name, email, picture } = req.user;
+    const user = await User.findOneAndUpdate(
+      { email: email },
+      { name, picture },
+      { new: true }
+    );
+    if (user) {
+      // console.log(user);
+      return res.json(user);
+    } else {
+      const newUser = await User({
+        name,
+        email,
+        picture,
+      }).save();
+      // console.log(newUser);
+      res.json(newUser);
     }
-    res.json(user);
-  });
+  } catch (err) {}
 };

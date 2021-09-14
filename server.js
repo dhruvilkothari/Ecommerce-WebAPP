@@ -1,35 +1,37 @@
+// all imports
 const express = require("express");
-const mongoose = require("mongoose");
-const morgan = require("morgan");
 const cors = require("cors");
-const { readdirSync } = require("fs");
+const morgan = require("morgan");
+const mongoose = require("mongoose");
 require("dotenv").config();
-
-// app
+const { readdirSync } = require("fs");
 const app = express();
 
-// database
+// db
 mongoose
   .connect(process.env.DATABASE_URL)
   .then(() => {
-    console.log("Connetect to database");
+    console.log("Connected to database");
   })
   .catch((err) => {
     if (err) {
+      console.log(`Canncot connect to db ${err.message}`);
       process.exit(1);
     }
   });
 
-// midddlerware
-app.use(express.json({ limit: "2mb" }));
-app.use(morgan("dev"));
+// middleware
 app.use(cors());
+app.use(morgan("dev"));
+app.use(express.json({ limit: "2mb" }));
 
-// routes
-readdirSync("./routes").map((r) => {
-  app.use("/api", require(`./routes/${r}`));
+// importing  and using routes
+readdirSync("./Routes").map((r) => {
+  app.use("/api", require(`./Routes/${r}`));
 });
 
-app.listen(process.env.PORT || 8000, () => {
-  console.log("Connect to port: " + process.env.PORT);
+//listen to server
+
+app.listen(process.env.PORT, () => {
+  console.log("Connected to backend ", 8000);
 });
