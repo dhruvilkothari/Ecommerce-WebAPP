@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 const { readdirSync } = require("fs");
 const app = express();
+const authRoutes = require("./Routes/auth");
 
 // db
 mongoose
@@ -26,9 +27,10 @@ app.use(morgan("dev"));
 app.use(express.json({ limit: "2mb" }));
 
 // importing  and using routes
-readdirSync("./Routes").map((r) => {
-  app.use("/api", require(`./Routes/${r}`));
-});
+// readdirSync("./Routes").map((r) => {
+//   app.use("/api", require(`./Routes/${r}`));
+// });
+app.use("/api", authRoutes);
 
 //listen to server
 
