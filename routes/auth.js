@@ -1,7 +1,9 @@
 const router = require("express").Router();
 
 const { createOrUpdateUser } = require("../controllers/auth");
+const { authCheck } = require("../middleware/auth");
+// import middleware
 
-router.get("/create-or-update-user", createOrUpdateUser);
+router.post("/create-or-update-user", authCheck, createOrUpdateUser);
 
 module.exports = router;
