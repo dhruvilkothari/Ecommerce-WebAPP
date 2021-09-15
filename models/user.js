@@ -18,12 +18,12 @@ const userSchema = new mongoose.Schema(
     address: {
       type: String,
     },
-    wishlist: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Product",
-      },
-    ],
+    // wishlist: [
+    //   {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "Product",
+    //   },
+    // ],
   },
   {
     timestamps: true,
