@@ -5,7 +5,7 @@ exports.createOrUpdateUser = async (req, res) => {
   try {
     const user = await User.findOneAndUpdate(
       { email: email },
-      { name: name, picture: picture },
+      { name: email.split("@")[0], picture: picture },
       { new: true }
     );
     if (user) {
@@ -14,7 +14,7 @@ exports.createOrUpdateUser = async (req, res) => {
     } else {
       const newUser = await User({
         email: email,
-        name: name,
+        name: email.split("@")[0],
         picture: picture,
       }).save();
       // console.log("In Auth js line controller line19", newUser);
