@@ -10,6 +10,7 @@ const app = express();
 // importing routes
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
+const categoryRoutes = require("./routes/category");
 
 // db
 mongoose
@@ -34,6 +35,7 @@ app.use(express.json({ limit: "2mb" }));
 // importing  and using routes
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
+app.use("/api", categoryRoutes);
 //listen to server
 
 app.listen(process.env.PORT, () => {
