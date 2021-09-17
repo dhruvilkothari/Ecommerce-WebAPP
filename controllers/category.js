@@ -33,12 +33,28 @@ exports.read = async (req, res, next) => {
     console.log(err);
   }
 };
-exports.update = async (req, res, next) => {};
+exports.update = async (req, res, next) => {
+  const slug = req.params.slug;
+  try {
+    const { name } = req.body;
+    const updated = await Category.findOneAndUpdate(
+      { slug: slug },
+      { name: name, slug: slugify(name) },
+      { new: true }
+    );
+    res.json(updated);
+  } catch (err) {
+    res.status(400).send("Category update failed");
+  }
+};
 exports.remove = async (req, res, next) => {
   const slug = req.params.slug;
   try {
-    const category = await Category.findOneAndDelete({ slug: slug }).exec();
-    res.json(category);
+    const deleted = await Category.findOneAndDelete({ slug: slug }).exec();
+    if (!deleted) {
+      return res.status(404).json({ err: "Category Not found" });
+    }
+    res.json(deleted);
   } catch (err) {
     console.log(err);
     res.status(400).send("Category delete failed");
