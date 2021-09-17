@@ -1,25 +1,25 @@
-const Category = require("../models/category");
+const Sub = require("../models/sub");
 const slugify = require("slugify");
 
 exports.create = async (req, res, next) => {
   try {
-    console.log(req.body);
-    const { name } = req.body;
-    const category = await new Category({
+    const { name, parent } = req.body;
+    // console.log(req.body);
+    const sub = await new Sub({
       name,
-
+      parent,
       slug: slugify(name),
     }).save();
-    res.json(category);
+    res.json(sub);
   } catch (err) {
-    // console.log("SUB CREATE ERROR", err);
-    res.status(400).send("Create Category failed: " + err.message);
+    console.log(err);
+    res.status(400).send("Create Sub failed: " + err.message);
   }
 };
 exports.list = async (req, res, next) => {
   try {
-    const categories = await Category.find({}).sort({ createdAt: -1 }).exec();
-    res.json(categories);
+    const subs = await Sub.find({}).sort({ createdAt: -1 }).exec();
+    res.json(subs);
   } catch (err) {
     console.log(err);
     res.json(err);
@@ -28,8 +28,8 @@ exports.list = async (req, res, next) => {
 exports.read = async (req, res, next) => {
   try {
     const slug = req.params.slug;
-    const category = await Category.findOne({ slug: slug }).exec();
-    res.json(category);
+    const sub = await Sub.findOne({ slug: slug }).exec();
+    res.json(sub);
   } catch (err) {
     res.json(err);
     console.log(err);
@@ -38,23 +38,23 @@ exports.read = async (req, res, next) => {
 exports.update = async (req, res, next) => {
   const slug = req.params.slug;
   try {
-    const { name } = req.body;
-    const updated = await Category.findOneAndUpdate(
+    const { name, parent } = req.body;
+    const updated = await Sub.findOneAndUpdate(
       { slug: slug },
-      { name: name, slug: slugify(name) },
+      { name: name, slug: slugify(name), parent },
       { new: true }
     );
     res.json(updated);
   } catch (err) {
-    res.status(400).send("Category update failed");
+    res.status(400).send("Sub update failed");
   }
 };
 exports.remove = async (req, res, next) => {
   const slug = req.params.slug;
   try {
-    const deleted = await Category.findOneAndDelete({ slug: slug }).exec();
+    const deleted = await Sub.findOneAndDelete({ slug: slug }).exec();
     if (!deleted) {
-      return res.status(404).json({ err: "Category Not found" });
+      return res.status(404).json({ err: "Sub Not found" });
     }
     res.json(deleted);
   } catch (err) {

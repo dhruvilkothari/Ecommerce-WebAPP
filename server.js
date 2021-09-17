@@ -11,6 +11,7 @@ const app = express();
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
 const categoryRoutes = require("./routes/category");
+const subRoutes = require("./routes/sub");
 
 // db
 mongoose
@@ -36,6 +37,7 @@ app.use(express.json({ limit: "2mb" }));
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 app.use("/api", categoryRoutes);
+app.use("/api", subRoutes);
 //listen to server
 
 app.listen(process.env.PORT, () => {
