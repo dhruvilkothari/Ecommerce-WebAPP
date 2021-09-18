@@ -7,6 +7,7 @@ const productSchema = new mongoose.Schema(
       required: true,
       maxlength: 32,
       text: true,
+      unique: true,
     },
     slug: {
       type: String,
@@ -29,24 +30,24 @@ const productSchema = new mongoose.Schema(
       trim: true,
       maxLength: 32,
     },
-    category: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Category",
-    },
-    subs: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Sub",
-      },
-    ],
+    // category: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "Category",
+    // },
+    // subs: [
+    //   {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "Sub",
+    //   },
+    // ],
     quantity: Number,
     sold: {
       type: Number,
       default: 0,
     },
-    images: {
-      type: Array,
-    },
+    // images: {
+    //   type: Array,
+    // },
     shipping: {
       type: String,
       enum: ["Yes", "No"],
@@ -55,7 +56,7 @@ const productSchema = new mongoose.Schema(
       type: String,
       enum: ["Black", "Brown", "Silver", "White", "Blue"],
     },
-    color: {
+    brand: {
       type: String,
       enum: ["Apple", "Samsung", "Microsoft", "Lenovo", "HP", "ASUS"],
     },
